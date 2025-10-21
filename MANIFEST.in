@@ -1,0 +1,22 @@
+# Include documentation
+include README.md
+include LICENSE
+include CLAUDE.md
+
+# Include configuration files
+recursive-include configs *.yaml
+
+# Include requirements
+include requirements.txt
+include requirements-dev.txt
+include environment.yml
+
+# Include data directory structure
+recursive-include data .gitkeep
+
+# Exclude unnecessary files
+global-exclude __pycache__
+global-exclude *.py[co]
+global-exclude .DS_Store
+global-exclude *.swp
+global-exclude *.swo

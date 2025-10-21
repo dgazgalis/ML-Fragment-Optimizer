@@ -1,0 +1,25 @@
+# Synthesis Planning Configuration
+# Configuration for retrosynthesis and synthesis route scoring
+
+# Retrosynthesis
+max_depth: 5  # Maximum number of synthesis steps
+max_routes: 10  # Maximum routes to generate
+reaction_rules_file: null  # Path to custom reaction rules (null = use defaults)
+
+# Route Scoring Weights
+route_score_weights:
+  n_steps: 0.3  # Fewer steps is better
+  building_block_availability: 0.4  # Commercial availability important
+  reaction_feasibility: 0.3  # Known reactions preferred
+
+# Building Blocks
+building_blocks_database: data/building_blocks/commercial.sdf
+commercial_availability_threshold: 0.7  # 0-1 scale
+
+# Filters
+min_synthetic_accessibility: 0.3  # SAScore-based filter (0-1, higher is easier)
+max_steps: 8  # Reject routes with more than this many steps
+
+# Output
+save_intermediate_routes: true
+results_dir: synthesis_results

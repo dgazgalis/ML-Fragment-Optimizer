@@ -1,0 +1,207 @@
+[build-system]
+requires = ["setuptools>=65.0", "wheel"]
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "ml-fragment-optimizer"
+version = "0.1.0"
+description = "Machine learning-driven fragment optimization for drug discovery with ADMET prediction, retrosynthesis planning, and active learning"
+readme = "README.md"
+authors = [
+    {name = "Your Name", email = "your.email@example.com"}
+]
+license = {text = "MIT"}
+requires-python = ">=3.10"
+keywords = [
+    "drug-discovery",
+    "fragment-based-drug-design",
+    "machine-learning",
+    "admet-prediction",
+    "retrosynthesis",
+    "active-learning",
+    "gcmc",
+    "molecular-modeling"
+]
+classifiers = [
+    "Development Status :: 3 - Alpha",
+    "Intended Audience :: Science/Research",
+    "License :: OSI Approved :: MIT License",
+    "Programming Language :: Python :: 3",
+    "Programming Language :: Python :: 3.10",
+    "Programming Language :: Python :: 3.11",
+    "Programming Language :: Python :: 3.12",
+    "Topic :: Scientific/Engineering :: Chemistry",
+    "Topic :: Scientific/Engineering :: Bio-Informatics",
+]
+
+dependencies = [
+    "numpy>=1.24.0",
+    "pandas>=2.0.0",
+    "scikit-learn>=1.3.0",
+    "scipy>=1.10.0",
+    "torch>=2.0.0",
+    "rdkit>=2023.3.1",
+    "xgboost>=2.0.0",
+    "catboost>=1.2.0",
+    "lightgbm>=4.0.0",
+    "matplotlib>=3.7.0",
+    "seaborn>=0.12.0",
+    "plotly>=5.14.0",
+    "tqdm>=4.65.0",
+    "pyyaml>=6.0",
+    "loguru>=0.7.0",
+    "joblib>=1.3.0",
+    "requests>=2.31.0",
+]
+
+[project.optional-dependencies]
+ml-advanced = [
+    "chemprop>=1.6.0",
+    "dgllife>=0.3.2",
+    "dgl>=1.1.0",
+    "descriptastorus>=2.6.0",
+]
+optimization = [
+    "botorch>=0.9.0",
+    "gpytorch>=1.11",
+    "ax-platform>=0.3.0",
+]
+gpu = [
+    "torch>=2.0.0",
+]
+shap-analysis = [
+    "shap>=0.42.0",
+]
+dev = [
+    "pytest>=7.4.0",
+    "pytest-cov>=4.1.0",
+    "pytest-xdist>=3.3.0",
+    "black>=23.7.0",
+    "ruff>=0.0.280",
+    "mypy>=1.4.0",
+    "isort>=5.12.0",
+    "pre-commit>=3.3.0",
+]
+docs = [
+    "sphinx>=7.0.0",
+    "sphinx-rtd-theme>=1.3.0",
+    "sphinx-autodoc-typehints>=1.24.0",
+    "myst-parser>=2.0.0",
+]
+all = [
+    "ml-fragment-optimizer[ml-advanced,optimization,shap-analysis,dev,docs]",
+]
+
+[project.urls]
+Homepage = "https://github.com/yourusername/ML-Fragment-Optimizer"
+Documentation = "https://ml-fragment-optimizer.readthedocs.io"
+Repository = "https://github.com/yourusername/ML-Fragment-Optimizer"
+Issues = "https://github.com/yourusername/ML-Fragment-Optimizer/issues"
+
+[project.scripts]
+mlfrag-train = "ml_fragment_optimizer.cli.train_admet_model:main"
+mlfrag-predict = "ml_fragment_optimizer.cli.predict_properties:main"
+mlfrag-optimize = "ml_fragment_optimizer.cli.optimize_fragment:main"
+mlfrag-synthesis = "ml_fragment_optimizer.cli.plan_synthesis:main"
+mlfrag-active-learning = "ml_fragment_optimizer.cli.active_learning_loop:main"
+mlfrag-benchmark = "ml_fragment_optimizer.cli.benchmark_models:main"
+
+[tool.setuptools]
+package-dir = {"" = "src"}
+
+[tool.setuptools.packages.find]
+where = ["src"]
+include = ["ml_fragment_optimizer*"]
+namespaces = false
+
+[tool.black]
+line-length = 100
+target-version = ['py310', 'py311', 'py312']
+include = '\.pyi?$'
+extend-exclude = '''
+/(
+  # directories
+  \.eggs
+  | \.git
+  | \.hg
+  | \.mypy_cache
+  | \.tox
+  | \.venv
+  | build
+  | dist
+)/
+'''
+
+[tool.ruff]
+line-length = 100
+target-version = "py310"
+select = [
+    "E",  # pycodestyle errors
+    "W",  # pycodestyle warnings
+    "F",  # pyflakes
+    "I",  # isort
+    "C",  # flake8-comprehensions
+    "B",  # flake8-bugbear
+    "UP", # pyupgrade
+]
+ignore = [
+    "E501",  # line too long, handled by black
+    "B008",  # do not perform function calls in argument defaults
+    "C901",  # too complex
+]
+
+[tool.ruff.per-file-ignores]
+"__init__.py" = ["F401"]
+
+[tool.mypy]
+python_version = "3.10"
+warn_return_any = true
+warn_unused_configs = true
+disallow_untyped_defs = true
+disallow_incomplete_defs = true
+check_untyped_defs = true
+disallow_untyped_decorators = false
+no_implicit_optional = true
+warn_redundant_casts = true
+warn_unused_ignores = true
+warn_no_return = true
+strict_equality = true
+
+[[tool.mypy.overrides]]
+module = [
+    "rdkit.*",
+    "sklearn.*",
+    "scipy.*",
+    "matplotlib.*",
+    "seaborn.*",
+    "plotly.*",
+    "xgboost.*",
+    "catboost.*",
+    "lightgbm.*",
+    "botorch.*",
+    "gpytorch.*",
+    "shap.*",
+]
+ignore_missing_imports = true
+
+[tool.pytest.ini_options]
+testpaths = ["tests"]
+python_files = ["test_*.py"]
+python_classes = ["Test*"]
+python_functions = ["test_*"]
+addopts = [
+    "--verbose",
+    "--color=yes",
+    "--cov=ml_fragment_optimizer",
+    "--cov-report=html",
+    "--cov-report=term-missing",
+]
+
+[tool.isort]
+profile = "black"
+line_length = 100
+multi_line_output = 3
+include_trailing_comma = true
+force_grid_wrap = 0
+use_parentheses = true
+ensure_newline_before_comments = true

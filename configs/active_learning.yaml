@@ -1,0 +1,29 @@
+# Active Learning Configuration
+# Configuration for iterative fragment optimization
+
+# Acquisition Function
+acquisition_function: uncertainty  # Options: uncertainty, expected_improvement, thompson
+batch_size: 10  # Number of molecules to suggest per iteration
+n_iterations: 20
+
+# Model Retraining
+retrain_frequency: 1  # Retrain every N iterations
+initial_training_size: 100
+
+# Stopping Criteria
+max_budget: 500  # Maximum number of experiments
+convergence_threshold: 0.01  # Stop if improvement < threshold
+
+# Exploration-Exploitation Balance
+epsilon: 0.1  # For epsilon-greedy strategy
+temperature: 1.0  # For softmax sampling
+
+# Integration with Fragment Database
+fragment_database_path: ../fragment-manager/fragments.db
+
+# Integration with GCNCMC
+gcmc_output_dir: ../Grand_SACP/output
+
+# Output
+results_dir: active_learning_results
+save_history: true

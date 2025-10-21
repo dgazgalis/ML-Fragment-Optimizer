@@ -1,0 +1,34 @@
+# Model Evaluation Configuration
+# Configuration for benchmarking and model comparison
+
+# Metrics
+regression_metrics:
+  - rmse
+  - mae
+  - r2
+  - spearman
+  - pearson
+
+classification_metrics:
+  - accuracy
+  - precision
+  - recall
+  - f1
+  - auroc
+  - auprc
+
+# Cross-Validation
+cv_strategy: kfold  # Options: kfold, stratified_kfold, leave_one_out
+n_splits: 5
+shuffle: true
+random_state: 42
+
+# Visualization
+generate_plots: true
+plot_format: png  # Options: png, pdf, svg
+plot_dpi: 300
+
+# Output
+results_dir: results/evaluation
+save_predictions: true
+save_metrics: true
